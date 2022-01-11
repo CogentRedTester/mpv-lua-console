@@ -778,7 +778,7 @@ end
 
 -- Add a global binding for enabling the REPL. While it's enabled, its bindings
 -- will take over and it can be closed with ESC.
-mp.add_key_binding(nil, 'enable', function()
+mp.add_key_binding('~', 'enable', function()
     set_active(true)
 end)
 
