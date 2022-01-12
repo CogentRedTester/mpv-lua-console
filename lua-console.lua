@@ -805,7 +805,7 @@ mp.register_event('log-message', function(e)
     if e.prefix:sub(1, 3) == 'osd' then return end
 
     -- Ignore messages output by this script.
-    if e.prefix == mp.get_script_name() then return end
+    if e.prefix ~= mp.get_script_name() then return end
 
     -- Ignore buffer overflow warning messages. Overflowed log messages would
     -- have been offscreen anyway.
