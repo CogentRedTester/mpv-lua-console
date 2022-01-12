@@ -6,13 +6,13 @@ Currently in a completely unfinished place. Do not use.
 
 ## To Do List
 
-- [ ] Execute lines as lua code instead of mpv commands
-- [ ] Handle errors
-- [ ] Provide separate environment for executed code
-- [ ] Make all existing variables/functions local to prevent access
-- [ ] Make mp/mp.msg/mp.utils available in the environment
+- [X] Execute lines as lua code instead of mpv commands
+- [X] Handle errors
+- [X] Provide separate environment for executed code
+- [X] Make all existing variables/functions local to prevent access
+- [X] Make mp/mp.msg/mp.utils available in the environment
 - [ ] Switch from using mpv message logs to a proper in-built logger
 - [ ] Auto-complete variables/functions in the global environment
 - [ ] Remove 'help' command, or add text from the lua manual.
 - [ ] Auto-complete table entries
-- [ ] Provide shortcut for printing tables
+- [X] Provide shortcut for printing tables
