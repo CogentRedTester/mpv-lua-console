@@ -1,3 +1,11 @@
+--[[
+    This script is for running a Lua REPL inside of mpv.
+    Available at: https://github.com/CogentRedTester/mpv-lua-console
+
+    The majority of this code comes from mpv's in-built console.lua script
+    Available at: https://github.com/mpv-player/mpv/blob/master/player/lua/console.lua
+]]
+
 -- Copyright (C) 2019 the mpv developers
 --
 -- Permission to use, copy, modify, and/or distribute this software for any
