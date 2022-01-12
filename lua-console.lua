@@ -76,6 +76,36 @@ local log_buffer = {}
 local key_bindings = {}
 local global_margin_y = 0
 
+-- setup a custom environment for the executed code to prevent
+-- the REPL from breaking the script
+local env = {
+    mp = mp,
+    msg = msg,
+    utils = utils
+}
+
+function env.print(...)
+    local args = {}
+
+    -- the select function is required to handle nil argument values
+    local len = select("#", ...)
+    for i = 1, len, 1 do
+        args[i] = utils.to_string( (select(i, ...)) )
+    end
+
+    msg.info(unpack(args))
+end
+
+setmetatable(env, { __index = _G })
+
+-- switch the main script to a different environment so that the
+-- executed lua code cannot access our global variales
+if setfenv then
+    setfenv(1, setmetatable({}, { __index = _G }))
+else
+    _ENV = setmetatable({}, { __index = _G })
+end
+
 local update_timer = nil
 update_timer = mp.add_periodic_timer(0.05, function()
     if pending_update then
@@ -374,6 +404,28 @@ local function help_command(param)
     log_add('', output)
 end
 
+-- execute the string as a piece of lua code
+local function execute(line)
+    msg.verbose("> "..line)
+    local chunk, err
+
+    -- lua 5.1/5.2 compatability
+    if setfenv then
+        chunk, err = loadstring(line)
+    else
+        chunk, err = load(line, nil, "t", env)
+    end
+
+    if not chunk then
+        return msg.error(err)
+    elseif setfenv then
+        setfenv(chunk, env)
+    end
+
+    local success, error = pcall(chunk)
+    if not success then msg.error(error) end
+end
+
 -- Run the current command and clear the line (Enter)
 local function handle_enter()
     if line == '' then
@@ -389,7 +441,7 @@ local function handle_enter()
     if help then
         help_command(help)
     else
-        mp.command(line)
+        execute(line)
     end
 
     clear()
